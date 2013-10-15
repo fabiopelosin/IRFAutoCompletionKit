@@ -1,0 +1,10 @@
+
+target "Demo" do
+  pod "IRFAutoCompletionKit", :path => "../"
+end
+
+target "Tests" do
+  pod "IRFAutoCompletionKit", :path => "../"
+  pod 'Kiwi/XCTest'
+end
+

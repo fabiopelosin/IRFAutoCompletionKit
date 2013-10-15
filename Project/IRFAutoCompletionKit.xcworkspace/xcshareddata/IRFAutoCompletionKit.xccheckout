@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E06A1B3A-50B8-4B94-8E5E-D647DDD0A0E7</string>
+	<key>IDESourceControlProjectName</key>
+	<string>IRFAutoCompletionKit</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0495D3DA-B128-46F4-BC12-A96BB20D8FAD</key>
+		<string>ssh://github.com/irrationalfab/IRFAutoCompletionKit.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Project/IRFAutoCompletionKit.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0495D3DA-B128-46F4-BC12-A96BB20D8FAD</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/irrationalfab/IRFAutoCompletionKit.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0495D3DA-B128-46F4-BC12-A96BB20D8FAD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0495D3DA-B128-46F4-BC12-A96BB20D8FAD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>IRFAutoCompletionKit</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,30 @@
+PODS:
+  - IRFAutoCompletionKit (0.1.0):
+    - IRFAutoCompletionKit/CompletionProviders
+    - IRFAutoCompletionKit/ViewController
+    - IRFEmojiCheatSheet
+  - IRFAutoCompletionKit/CompletionProviders (0.1.0):
+    - IRFEmojiCheatSheet
+  - IRFAutoCompletionKit/ViewController (0.1.0):
+    - IRFEmojiCheatSheet
+  - IRFEmojiCheatSheet (0.3.0)
+  - Kiwi/ARC (2.2.3)
+  - Kiwi/NonARC (2.2.3)
+  - Kiwi/XCTest (2.2.3):
+    - Kiwi/ARC
+    - Kiwi/NonARC
+
+DEPENDENCIES:
+  - IRFAutoCompletionKit (from `../`)
+  - Kiwi/XCTest
+
+EXTERNAL SOURCES:
+  IRFAutoCompletionKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  IRFAutoCompletionKit: a22ccbc96d7055024ab005ca4a1d251226b5e721
+  IRFEmojiCheatSheet: 88536eccaa3d994a8300063ea4b9cfc245561df5
+  Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
+
+COCOAPODS: 0.27.1

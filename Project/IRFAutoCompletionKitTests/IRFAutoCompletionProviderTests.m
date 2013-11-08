@@ -21,7 +21,7 @@ describe(@"IRFAutoCompletionProvider", ^{
         [sut setStartCharacter:@":"];
         [sut setEndCharacter:@":"];
         [sut setSeparationCharacters:@[@" ", @"\n"]];
-        [sut  setEntriesBlock:^NSArray *{
+        [sut setEntriesBlock:^NSArray *{
             return @[@"thumbsup", @"thumbsdown", @"+1"];
         }];
     });
@@ -30,41 +30,44 @@ describe(@"IRFAutoCompletionProvider", ^{
 
     context(@"-shouldStartAutoCompletionForString", ^{
 
-        it(@"starts with a string ending with a colon after the begin of the line", ^{
+        it(@"starts after the start character", ^{
             BOOL result = [sut shouldStartAutoCompletionForString:@":"];
             [[theValue(result) should] beTrue];
         });
 
-        it(@"it starts with a string ending in a colon after a space", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@" :"];
-            [[theValue(result) should] beTrue];
-        });
-
-        it(@"handles text before the space", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"sometext :"];
-            [[theValue(result) should] beTrue];
-        });
-
-        it(@"starts if the emjoi has not being completed", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"sometext :thumbs"];
-            [[theValue(result) should] beTrue];
-        });
-
-        it(@"doesn't starts with a completed emoji", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"sometext :thumbs:"];
+        it(@"doesnt' starts if the start character could not be found", ^{
+            BOOL result = [sut shouldStartAutoCompletionForString:@"Some string!"];
             [[theValue(result) should] beFalse];
+        });
+
+        it(@"starts after the user typed the start character in a string", ^{
+            BOOL result = [sut shouldStartAutoCompletionForString:@"substring :"];
+            [[theValue(result) should] beTrue];
+        });
+
+        it(@"starts after the start character if a completion is still in progress", ^{
+            NSString *string = @"sometext :thumbs";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
+            [[theValue(result) should] beTrue];
         });
 
         it(@"doesn't starts with a space after a completed emoji", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"sometext :thumbs: "];
+            NSString *string = @"sometext :thumbs: ";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beFalse];
         });
 
-        it(@"ends with a space", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"sometext :thmbs: up"];
+        it(@"doesn't start after a separation character", ^{
+            NSString *string = @"sometext :thmbs: up";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beFalse];
         });
 
+        it(@"doesn't start when the completion has been terminated and has the same charater for the start and the end", ^{
+            NSString *string = @"sometext :thumbs:";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
+            [[theValue(result) should] beFalse];
+        });
     });
 
     //--------------------------------------------------------------------------
@@ -76,8 +79,9 @@ describe(@"IRFAutoCompletionProvider", ^{
             [[theValue(result) should] beTrue];
         });
 
-        it(@"ends if no colon is found", ^{
-            BOOL result = [sut shouldEndAutoCompletionForString:@"text"];
+        it(@"ends if no start character is found", ^{
+            NSString *string = @"text";
+            BOOL result = [sut shouldEndAutoCompletionForString:string];
             [[theValue(result) should] beTrue];
         });
 
@@ -95,12 +99,16 @@ describe(@"IRFAutoCompletionProvider", ^{
 
     //--------------------------------------------------------------------------
 
-    context(@"-autoCompletionCandidatesForString", ^{
+    context(@"-candidatesEntriesForString", ^{
         it(@"starts if the emjoi has not being completed", ^{
             NSArray *result = [sut candidatesEntriesForString:@"sometext :thumbs"];
             [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
         });
 
+        it(@"is case insensitive", ^{
+            NSArray *result = [sut candidatesEntriesForString:@"sometext :Thumbs"];
+            [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
+        });
     });
 
     //--------------------------------------------------------------------------

@@ -23,6 +23,9 @@
 		E588293B18104A2E00F3922F /* Lion.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E588293A18104A2E00F3922F /* Lion.jpg */; };
 		E5D28E0C180E8E2E0040CDD5 /* IRFUserCompletionProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D28E0B180E8E2E0040CDD5 /* IRFUserCompletionProviderTests.m */; };
 		E5D28E0E180E90430040CDD5 /* IRFAutoCompletionProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D28E0D180E90430040CDD5 /* IRFAutoCompletionProviderTests.m */; };
+		E5D3AC45182D584200AEE397 /* IRFAutoCompletionKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = E5D3AC42182D584200AEE397 /* IRFAutoCompletionKit.podspec */; };
+		E5D3AC46182D584200AEE397 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D3AC43182D584200AEE397 /* CHANGELOG.md */; };
+		E5D3AC47182D584200AEE397 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D3AC44182D584200AEE397 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +55,9 @@
 		E588293A18104A2E00F3922F /* Lion.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Lion.jpg; sourceTree = "<group>"; };
 		E5D28E0B180E8E2E0040CDD5 /* IRFUserCompletionProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFUserCompletionProviderTests.m; sourceTree = "<group>"; };
 		E5D28E0D180E90430040CDD5 /* IRFAutoCompletionProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFAutoCompletionProviderTests.m; sourceTree = "<group>"; };
+		E5D3AC42182D584200AEE397 /* IRFAutoCompletionKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = IRFAutoCompletionKit.podspec; path = ../IRFAutoCompletionKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E5D3AC43182D584200AEE397 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		E5D3AC44182D584200AEE397 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,9 @@
 		E533C391180D90BE003FE8B2 = {
 			isa = PBXGroup;
 			children = (
+				E5D3AC42182D584200AEE397 /* IRFAutoCompletionKit.podspec */,
+				E5D3AC44182D584200AEE397 /* README.md */,
+				E5D3AC43182D584200AEE397 /* CHANGELOG.md */,
 				E533C3A3180D90BE003FE8B2 /* Demo */,
 				E533C3C1180D90BE003FE8B2 /* IRFAutoCompletionKitTests */,
 				E533C39C180D90BE003FE8B2 /* Frameworks */,
@@ -251,8 +260,11 @@
 			files = (
 				E533C3A8180D90BE003FE8B2 /* InfoPlist.strings in Resources */,
 				E533C3B6180D90BE003FE8B2 /* Images.xcassets in Resources */,
+				E5D3AC45182D584200AEE397 /* IRFAutoCompletionKit.podspec in Resources */,
 				E588293B18104A2E00F3922F /* Lion.jpg in Resources */,
 				E533C3AE180D90BE003FE8B2 /* Credits.rtf in Resources */,
+				E5D3AC46182D584200AEE397 /* CHANGELOG.md in Resources */,
+				E5D3AC47182D584200AEE397 /* README.md in Resources */,
 				E533C3B4180D90BE003FE8B2 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

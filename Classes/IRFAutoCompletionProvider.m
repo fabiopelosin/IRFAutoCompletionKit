@@ -25,18 +25,39 @@
 
 - (BOOL)shouldStartAutoCompletionForString:(NSString*)string;
 {
-    if ([string isEqualToString:self.startCharacter]) {
+
+    NSRange startRange = [string rangeOfString:self.startCharacter options:NSBackwardsSearch];
+
+    if (startRange.location == NSNotFound) {
+        return FALSE;
+    }
+
+    NSString *substringFromStartCharacter = [string substringFromIndex:startRange.location + startRange.length];
+
+    if ([substringFromStartCharacter isEqualToString:self.startCharacter]) {
+        // TODO False if the completion has been done.
         return TRUE;
     }
 
-    if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
-        NSString *regex = [NSString stringWithFormat:@"(^| )%@[^%@%@]$", self.startCharacter, self.endCharacter, [self.separationCharacters componentsJoinedByString:@""]];
-        if ([string rangeOfString:regex options:NSRegularExpressionSearch].location != NSNotFound) {
-            return TRUE;
-        }
-    }
 
-    return FALSE;
+    NSMutableArray *interruptionCharacters = [NSMutableArray new];
+    if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
+        [interruptionCharacters addObject:self.endCharacter];
+    }
+    [self.separationCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
+        if (![character isEqualToString:@""]) {
+            [interruptionCharacters addObject:character];
+        }
+    }];
+
+    __block BOOL hasInterruptionCharacter = TRUE;
+    [interruptionCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
+        if ([substringFromStartCharacter rangeOfString:character].location != NSNotFound) {
+            hasInterruptionCharacter = FALSE;
+        }
+    }];
+
+    return hasInterruptionCharacter;
 }
 
 - (BOOL)shouldStartAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint;
@@ -52,22 +73,19 @@
         return TRUE;
     }
 
+    NSRange startRange = [string rangeOfString:self.startCharacter options:NSBackwardsSearch];
+    // NSString *substringFromStartCharacter = [string substringFromIndex:startRange.location + startRange.length];
+
+    if (startRange.location == NSNotFound) {
+        return TRUE;
+    }
+
     if (self.endCharacter && [string hasSuffix:self.endCharacter]) {
         NSString *regex = [NSString stringWithFormat:@"(^| )%@[^%@%@]+%@$", self.startCharacter, self.endCharacter, [self.separationCharacters componentsJoinedByString:@""], self.endCharacter];
         if ([string rangeOfString:regex options:NSRegularExpressionSearch].location != NSNotFound) {
             return TRUE;
         }
     }
-
-//    if (![self shouldStartAutoCompletionForString:string]) {
-//        return TRUE;
-//    }
-
-//    NSString *regex = [NSString stringWithFormat:@"%@[^%@]*%@", self.startCharacter, [self.separationCharacters componentsJoinedByString:@""], self.endCharacter];
-//    NSString *lastComponent = [[string componentsSeparatedByString:@" "] lastObject];
-//    if ([lastComponent rangeOfString:regex options:NSRegularExpressionSearch].location != NSNotFound) {
-//        return TRUE;
-//    }
 
     return FALSE;
 }
@@ -94,8 +112,9 @@
     if ([searchKey isEqualToString:@""]) {
         return entries;
     } else {
+        searchKey = [searchKey lowercaseString];
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id entry, NSDictionary *bindings) {
-            NSString *completion = [self completionForEntry:entry];
+            NSString *completion = [[self completionForEntry:entry] lowercaseString];
             return [completion hasPrefix:searchKey];
         }];
         NSArray *candidateEntries = [entries filteredArrayUsingPredicate:predicate];
@@ -242,6 +261,7 @@
     if (self.entriesBlock) {
         return self.entriesBlock();
     } else {
+        [NSException raise:NSInternalInconsistencyException format:@"No entries for autocompletion provider: %@", self];
         return nil;
     }
 }
@@ -260,7 +280,11 @@
 
 - (NSString*)displayValueForEntry:(id)entry;
 {
-    return [self completionForEntry:entry];
+    if (self.displayValueBlock) {
+        return self.displayValueBlock(entry);
+    } else {
+        return [self completionForEntry:entry];
+    }
 }
 
 - (NSImage*)imageForEntry:(NSString*)entry;

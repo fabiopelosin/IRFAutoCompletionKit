@@ -4,4 +4,4 @@ before_install:
     - brew unlink xctool
     - brew install xctool
 install: cd Project; pod install; cd ..
-script: xctool -workspace Project/IRFAutoCompletionKit.xcworkspace -scheme Demo test
+script: xcodebuild -workspace Project/IRFAutoCompletionKit.xcworkspace -scheme Demo test

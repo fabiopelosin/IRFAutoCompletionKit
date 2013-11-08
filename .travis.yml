@@ -1,6 +1,7 @@
 language: objective-c
 before_install:
     - brew update
+    - brew unlink xctool
     - brew install xctool
 install: cd Project; pod install
 script: xctool -workspace Project/IRFAutoCompletionKit.xcworkspace -scheme Demo test

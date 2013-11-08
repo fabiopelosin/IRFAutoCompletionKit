@@ -16,7 +16,19 @@ Pod::Spec.new do |s|
   s.platform = :osx, '10.7'
   s.requires_arc = true
 
-  s.source_files = 'Classes/**/*.{h,m}'
+  s.source_files = 'Classes'
 
-  s.dependency 'IRFEmojiCheatSheet'
+  s.subspec 'CompletionProviders' do |ss|
+    ss.osx.source_files = 'Classes/CompletionProviders'
+    ss.dependency 'IRFEmojiCheatSheet'
+  end
+
+  s.subspec 'ViewControllers' do |ss|
+    ss.osx.source_files = 'Classes/osx/ViewControllers'
+  end
+
+  s.subspec 'ViewManagers' do |ss|
+    ss.osx.source_files = 'Classes/osx/ViewManagers'
+  end
+
 end

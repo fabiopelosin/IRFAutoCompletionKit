@@ -28,9 +28,7 @@
 /* Begin PBXFileReference section */
 		1AC0EDF05AD54BFBACDB9D70 /* Pods-Demo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.xcconfig"; path = "Pods/Pods-Demo.xcconfig"; sourceTree = "<group>"; };
 		27DF6FC5866640FFBF8A68E8 /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		57F77E863A5C47AD973E2A88 /* libPods-TestDemoApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TestDemoApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		888474DC777D4114AB8B1B13 /* Pods-Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.xcconfig"; path = "Pods/Pods-Tests.xcconfig"; sourceTree = "<group>"; };
-		96CD865DA4D045B89A6C33C5 /* Pods-TestDemoApp.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestDemoApp.xcconfig"; path = "Pods/Pods-TestDemoApp.xcconfig"; sourceTree = "<group>"; };
 		A89169B3BA2C45E1A907B5B5 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E52AC0CC180E779D00C19F51 /* IRFIRFEmojiAutoCompletionProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFIRFEmojiAutoCompletionProviderTests.m; sourceTree = "<group>"; };
 		E533C39A180D90BE003FE8B2 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +95,6 @@
 				E533C39B180D90BE003FE8B2 /* Products */,
 				1AC0EDF05AD54BFBACDB9D70 /* Pods-Demo.xcconfig */,
 				888474DC777D4114AB8B1B13 /* Pods-Tests.xcconfig */,
-				96CD865DA4D045B89A6C33C5 /* Pods-TestDemoApp.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,7 +115,6 @@
 				E533C39F180D90BE003FE8B2 /* Other Frameworks */,
 				27DF6FC5866640FFBF8A68E8 /* libPods-Demo.a */,
 				A89169B3BA2C45E1A907B5B5 /* libPods-Tests.a */,
-				57F77E863A5C47AD973E2A88 /* libPods-TestDemoApp.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

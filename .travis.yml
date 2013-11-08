@@ -3,5 +3,5 @@ before_install:
     - brew update
     - brew unlink xctool
     - brew install xctool
-install: cd Project; pod install
+install: cd Project; pod install; cd ..
 script: xctool -workspace Project/IRFAutoCompletionKit.xcworkspace -scheme Demo test

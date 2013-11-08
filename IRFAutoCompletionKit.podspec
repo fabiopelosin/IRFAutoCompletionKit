@@ -6,19 +6,12 @@ Pod::Spec.new do |s|
   s.screenshots  = "https://raw.github.com/irrationalfab/IRFAutoCompletionKit/master/Web/Screen%20Shot%200.png"
   s.license      = 'MIT'
   s.author       = { "Fabio Pelosin" => "fabiopelosin@gmail.com" }
-  s.source       = { :git => "https://github.com/irrationalfab/IRFAutoCompletionKit", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/irrationalfab/IRFAutoCompletionKit.git", :tag => s.version.to_s }
+
+  s.platform = :osx, '10.7'
   s.requires_arc = true
-  s.source_files = 'Classes'
 
-  s.subspec 'CompletionProviders' do |ss|
-    ss.source_files = 'Classes/CompletionProviders'
-  end
-
-  s.subspec 'ViewController' do |ss|
-    ss.platform = :osx
-    ss.source_files = 'Classes/osx/ViewController'
-    ss.resources = 'Classes/osx/ViewController/MMPopOverEmojiViewController.xib'
-  end
+  s.source_files = 'Classes/**/*.{h,m}'
 
   s.dependency 'IRFEmojiCheatSheet'
 end

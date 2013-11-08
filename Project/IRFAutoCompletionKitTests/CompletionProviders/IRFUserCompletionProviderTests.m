@@ -18,7 +18,9 @@ describe(@"IRFUserCompletionProvider", ^{
 
     beforeEach(^{
         sut = [IRFUserCompletionProvider new];
-        [sut setCompletions:@[@"UserName"]];
+        [sut setEntriesBlock:^NSArray *{
+            return @[@"UserName"];
+        }];
     });
 
 
@@ -32,11 +34,11 @@ describe(@"IRFUserCompletionProvider", ^{
         });
 
         it(@"returns the end characters", ^{
-            [[sut.endCharacter should] beNil];
+            [[sut.endCharacter should] equal:@""];
         });
 
         it(@"returns the separation characters", ^{
-            [[sut.separationCharacters should] equal:@[@" ", @"\n", @":"]];
+            [[sut.separationCharacters should] equal:@[@" ", @":"]];
         });
 
     });

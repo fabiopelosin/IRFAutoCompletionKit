@@ -14,14 +14,16 @@ SPEC_BEGIN(IRFAutoCompletionProviderSpec)
 
 describe(@"IRFAutoCompletionProvider", ^{
 
-    __block id sut = nil;
+    __block IRFAutoCompletionProvider* sut = nil;
 
     beforeEach(^{
         sut = [IRFAutoCompletionProvider new];
         [sut setStartCharacter:@":"];
         [sut setEndCharacter:@":"];
         [sut setSeparationCharacters:@[@" ", @"\n"]];
-        [sut setCompletions:@[@"thumbsup", @"thumbsdown", @"+1"]];
+        [sut  setEntriesBlock:^NSArray *{
+            return @[@"thumbsup", @"thumbsdown", @"+1"];
+        }];
     });
 
     //--------------------------------------------------------------------------
@@ -95,7 +97,7 @@ describe(@"IRFAutoCompletionProvider", ^{
 
     context(@"-autoCompletionCandidatesForString", ^{
         it(@"starts if the emjoi has not being completed", ^{
-            NSArray *result = [sut autoCompletionCandidatesForString:@"sometext :thumbs"];
+            NSArray *result = [sut candidatesEntriesForString:@"sometext :thumbs"];
             [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
         });
 

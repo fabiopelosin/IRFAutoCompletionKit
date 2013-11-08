@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "0.1.0"
   s.summary      = "Small kit to support auto completion"
   s.homepage     = "https://github.com/irrationalfab/IRFAutoCompletionKit"
-  s.screenshots  = "https://raw.github.com/irrationalfab/IRFAutoCompletionKit/master/Web/Screen%20Shot 0.png"
+  s.screenshots  = "https://raw.github.com/irrationalfab/IRFAutoCompletionKit/master/Web/Screen%20Shot%200.png"
   s.license      = 'MIT'
   s.author       = { "Fabio Pelosin" => "fabiopelosin@gmail.com" }
   s.source       = { :git => "https://github.com/irrationalfab/IRFAutoCompletionKit", :tag => s.version.to_s }
@@ -21,5 +21,4 @@ Pod::Spec.new do |s|
   end
 
   s.dependency 'IRFEmojiCheatSheet'
-
 end

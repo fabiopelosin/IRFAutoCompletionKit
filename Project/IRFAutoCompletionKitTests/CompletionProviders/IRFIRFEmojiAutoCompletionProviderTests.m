@@ -38,8 +38,8 @@ describe(@"IRFEmojiAutoCompletionProvider", ^{
         });
 
         it(@"returns the completions", ^{
-            NSString *result = [sut completions][0];
-            [[result should] equal:@"1234"];
+            NSString *result = [sut entries][0];
+            [[result should] equal:@"bell"];
         });
         
     });
@@ -76,13 +76,13 @@ describe(@"IRFEmojiAutoCompletionProvider", ^{
         });
 
         it(@"complestes a given string adding the colon and a final space", ^{
-            NSString *string = @"sometext :thumbs";
+            NSString *string = @"sometext :thumbsu";
             NSString *result = [sut completeString:string];
             [[result should] equal:@"sometext :thumbsup: "];
         });
 
         it(@"doesn't affects other emojis during completion", ^{
-            NSString *string = @"sometext :+1: :thumbs";
+            NSString *string = @"sometext :+1: :thumbsu";
             NSString *result = [sut completeString:string];
             [[result should] equal:@"sometext :+1: :thumbsup: "];
         });

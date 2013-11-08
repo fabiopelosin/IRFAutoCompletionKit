@@ -3,7 +3,16 @@
 [![Version](https://cocoapod-badges.herokuapp.com/v/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
 [![Platform](https://cocoapod-badges.herokuapp.com/p/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
 
-![](https://raw.github.com/irrationalfab/IRFAutoCompletionKit/master/Web/Screen%20Shot%200.png)
+Small kit designed to provide autocompletion triggered by a character. Built in
+support is provided for emojis and completions from an user list. The base
+classes are easily extendible to provide support for other uses.
+
+Currently only OS X is supported, however many of the classes would compile (in
+some cases with minor adaptations) on iOS.
+
+<p align="center">
+  <img src="https://raw.github.com/irrationalfab/IRFAutoCompletionKit/master/Web/Screen%20Shot%200.png"/>
+</p>
 
 ## Usage
 

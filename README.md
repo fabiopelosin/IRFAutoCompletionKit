@@ -1,4 +1,4 @@
-# DSAutoCompletionKit
+# IRFAutoCompletionKit
 
 [![Version](https://cocoapod-badges.herokuapp.com/v/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
 [![Platform](https://cocoapod-badges.herokuapp.com/p/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)

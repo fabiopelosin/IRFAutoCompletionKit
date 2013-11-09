@@ -22,6 +22,19 @@ some cases with minor adaptations) on iOS.
 To run the example project; clone the repo, and run `pod install` from the
 Project directory first.
 
+```objc
+#import <IRFAutoCompletionKit/IRFAutoCompletionKit.h>
+
+- (void)viewSetupMethod {
+    IRFEmojiAutoCompletionProvider *emojiCompletionProvider = [IRFEmojiAutoCompletionProvider new];
+    NSArray *completionsProviders = @[emojiCompletionProvider];
+    [self setAutoCompletionManager:[IRFAutoCompletionTextFieldManager new]];
+    [self.autoCompletionManager setCompletionProviders:completionsProviders];
+    [self.autoCompletionManager attachToTextField:self.textField];
+    [self.autoCompletionManager setTextFieldFowardingDelegate:self];
+}
+```
+
 ## Installation
 
 DSAutoCompletionKit is available through [CocoaPods](http://cocoapods.org), to

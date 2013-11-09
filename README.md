@@ -4,7 +4,7 @@
 [![Platform](https://cocoapod-badges.herokuapp.com/p/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
 [![Build Status](https://travis-ci.org/irrationalfab/IRFAutoCompletionKit.png?branch=master)](https://travis-ci.org/irrationalfab/IRFAutoCompletionKit)
 
-_Warning this library is under development and is not completely functional._
+_Warning this library is under development and although it is functional is has some important bugs._
 
 Small kit designed to provide autocompletion triggered by a character. Built in
 support is provided for emojis and completions from an user list. The base

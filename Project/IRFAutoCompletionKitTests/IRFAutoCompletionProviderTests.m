@@ -31,22 +31,31 @@ describe(@"IRFAutoCompletionProvider", ^{
     context(@"-shouldStartAutoCompletionForString", ^{
 
         it(@"starts after the start character", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@":"];
+            NSString *string = @":";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beTrue];
         });
 
         it(@"doesnt' starts if the start character could not be found", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"Some string!"];
+            NSString *string = @"Some string";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beFalse];
         });
 
         it(@"starts after the user typed the start character in a string", ^{
-            BOOL result = [sut shouldStartAutoCompletionForString:@"substring :"];
+            NSString *string = @"Some string :";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beTrue];
         });
 
         it(@"starts after the start character if a completion is still in progress", ^{
-            NSString *string = @"sometext :thumbs";
+            NSString *string = @"Some string :tumb";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
+            [[theValue(result) should] beTrue];
+        });
+
+        it(@"is is not confused by previous completions", ^{
+            NSString *string = @"sometext :+1: :thumbs";
             BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beTrue];
         });
@@ -68,13 +77,19 @@ describe(@"IRFAutoCompletionProvider", ^{
             BOOL result = [sut shouldStartAutoCompletionForString:string];
             [[theValue(result) should] beFalse];
         });
+
+        it(@"doesn't start if the start character is not preceeded by a separator character", ^{
+            NSString *string = @"sometext:thu";
+            BOOL result = [sut shouldStartAutoCompletionForString:string];
+            [[theValue(result) should] beFalse];
+        });
     });
 
     //--------------------------------------------------------------------------
 
     context(@"-shouldEndAutoCompletionForString", ^{
 
-        it(@"ends with a space", ^{
+        it(@"ends with a separator character", ^{
             BOOL result = [sut shouldEndAutoCompletionForString:@":+1: "];
             [[theValue(result) should] beTrue];
         });
@@ -85,12 +100,13 @@ describe(@"IRFAutoCompletionProvider", ^{
             [[theValue(result) should] beTrue];
         });
 
-        it(@"ends after the emoji has been completed", ^{
-            BOOL result = [sut shouldEndAutoCompletionForString:@"text :+1:"];
+        it(@"ends if the completions has been finalized", ^{
+            NSString *string = @"text :+1:";
+            BOOL result = [sut shouldEndAutoCompletionForString:string];
             [[theValue(result) should] beTrue];
         });
 
-        it(@"doesn't end if the emjoy is being completed", ^{
+        it(@"doesn't end if the completion has not been finalized", ^{
             BOOL result = [sut shouldEndAutoCompletionForString:@"text :+1"];
             [[theValue(result) should] beFalse];
         });
@@ -105,28 +121,34 @@ describe(@"IRFAutoCompletionProvider", ^{
             [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
         });
 
-        it(@"is case insensitive", ^{
+        it(@"is case insensitive by default", ^{
             NSArray *result = [sut candidatesEntriesForString:@"sometext :Thumbs"];
             [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
+        });
+
+        it(@"is can be configured to be case sensitive", ^{
+            [sut setCaseSensitive:TRUE];
+            NSArray *result = [sut candidatesEntriesForString:@"sometext :Thumbs"];
+            [[result should] equal:@[]];
         });
     });
 
     //--------------------------------------------------------------------------
 
     context(@"-completeString:candidate:insertionPoint:", ^{
-//        it(@"completes a string", ^{
-//            NSString *string = @"sometext :thumbs";
-//            NSString *result = [sut completeString:string candidate:@"thumbsdown" insertionPoint:string.length];
-//            [[result should] equal:@"sometext :thumbsdown: "];
-//        });
-//
-//        it(@"completes a string being editing in the middle", ^{
-//            NSString *firstPart = @"sometext :thumbs";
-//            NSString *secondPart = @" othertext";
-//            NSString *string = [firstPart stringByAppendingString:secondPart];
-//            NSString *result = [sut completeString:string candidate:@"thumbsdown" insertionPoint:firstPart.length];
-//            [[result should] equal:@"sometext :thumbsdown: othertext"];
-//        });
+        it(@"completes a string", ^{
+            NSString *string = @"sometext :thumbs";
+            NSString *result = [sut completeString:string candidateEntry:@"thumbsdown" insertionPoint:string.length];
+            [[result should] equal:@"sometext :thumbsdown: "];
+        });
+
+        it(@"completes a string being editing in the middle", ^{
+            NSString *firstPart = @"sometext :thumbs";
+            NSString *secondPart = @" othertext";
+            NSString *string = [firstPart stringByAppendingString:secondPart];
+            NSString *result = [sut completeString:string candidateEntry:@"thumbsdown" insertionPoint:firstPart.length];
+            [[result should] equal:@"sometext :thumbsdown: othertext"];
+        });
 
         it(@"completes a string containing emojis being editing in the middle", ^{
             NSString *firstPart = @":+1: sometext :thumbs";

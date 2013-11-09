@@ -44,9 +44,14 @@
  *
  * The firs one is appneded after completions. Defaults to the space character
  * and to the newline symbol.
- *
  */
 @property (copy, nonatomic) NSArray *separationCharacters;
+
+/**
+ * Whether completions matching should be case sensitive.
+ */
+@property (assign, nonatomic, getter = isCaseSensitive) BOOL caseSensitive;
+
 
 //------------------------------------------------------------------------------
 /// Entries

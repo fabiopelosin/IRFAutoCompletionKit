@@ -17,6 +17,7 @@
         [self setStartCharacter:@""];
         [self setEndCharacter:@""];
         [self setSeparationCharacters:@[@" ", @"\n"]];
+        [self setCaseSensitive:NO];
     }
     return self;
 }
@@ -25,39 +26,27 @@
 
 - (BOOL)shouldStartAutoCompletionForString:(NSString*)string;
 {
-
-    NSRange startRange = [string rangeOfString:self.startCharacter options:NSBackwardsSearch];
-
-    if (startRange.location == NSNotFound) {
+    NSString *substringFromStartCharacter = [self substringFromStartCharacterOfString:string];
+    if (!substringFromStartCharacter) {
         return FALSE;
     }
 
-    NSString *substringFromStartCharacter = [string substringFromIndex:startRange.location + startRange.length];
-
     if ([substringFromStartCharacter isEqualToString:self.startCharacter]) {
-        // TODO False if the completion has been done.
         return TRUE;
     }
 
-
-    NSMutableArray *interruptionCharacters = [NSMutableArray new];
-    if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
-        [interruptionCharacters addObject:self.endCharacter];
+    if ([string hasSuffix:self.endCharacter]) {
+        NSString *substringToEndCharacter = [string substringToIndex:string.length - self.endCharacter.length];
+        NSRange previousStartRange = [substringToEndCharacter rangeOfString:self.startCharacter options:NSBackwardsSearch];
+        if (previousStartRange.location != NSNotFound) {
+            NSString *pontenialComplete = [substringToEndCharacter substringFromIndex:previousStartRange.location + previousStartRange.length];
+            if (![self stringHasInterruptionCharacters:pontenialComplete]) {
+                return FALSE;
+            }
+        }
     }
-    [self.separationCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
-        if (![character isEqualToString:@""]) {
-            [interruptionCharacters addObject:character];
-        }
-    }];
 
-    __block BOOL hasInterruptionCharacter = TRUE;
-    [interruptionCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
-        if ([substringFromStartCharacter rangeOfString:character].location != NSNotFound) {
-            hasInterruptionCharacter = FALSE;
-        }
-    }];
-
-    return hasInterruptionCharacter;
+    return ![self stringHasInterruptionCharacters:substringFromStartCharacter];
 }
 
 - (BOOL)shouldStartAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint;
@@ -69,25 +58,16 @@
 
 - (BOOL)shouldEndAutoCompletionForString:(NSString*)string;
 {
-    if (!string || [string isEqualToString:@""]) {
+    if ([string hasSuffix:self.endCharacter]) {
         return TRUE;
     }
 
-    NSRange startRange = [string rangeOfString:self.startCharacter options:NSBackwardsSearch];
-    // NSString *substringFromStartCharacter = [string substringFromIndex:startRange.location + startRange.length];
-
-    if (startRange.location == NSNotFound) {
+    NSString *substringFromStartCharacter = [self substringFromStartCharacterOfString:string];
+    if (!substringFromStartCharacter) {
         return TRUE;
     }
 
-    if (self.endCharacter && [string hasSuffix:self.endCharacter]) {
-        NSString *regex = [NSString stringWithFormat:@"(^| )%@[^%@%@]+%@$", self.startCharacter, self.endCharacter, [self.separationCharacters componentsJoinedByString:@""], self.endCharacter];
-        if ([string rangeOfString:regex options:NSRegularExpressionSearch].location != NSNotFound) {
-            return TRUE;
-        }
-    }
-
-    return FALSE;
+    return [self stringHasInterruptionCharacters:substringFromStartCharacter];
 }
 
 - (BOOL)shouldEndAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint;
@@ -112,9 +92,14 @@
     if ([searchKey isEqualToString:@""]) {
         return entries;
     } else {
-        searchKey = [searchKey lowercaseString];
+        if (!self.isCaseSensitive) {
+            searchKey = [searchKey lowercaseString];
+        }
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id entry, NSDictionary *bindings) {
-            NSString *completion = [[self completionForEntry:entry] lowercaseString];
+            NSString *completion = [self completionForEntry:entry];
+            if (!self.isCaseSensitive) {
+                completion = [completion lowercaseString];
+            }
             return [completion hasPrefix:searchKey];
         }];
         NSArray *candidateEntries = [entries filteredArrayUsingPredicate:predicate];
@@ -133,7 +118,6 @@
 - (NSArray*)candidatesEntriesForString:(NSString*)string; {
     return [self candidatesEntriesForString:string insertionPoint:string.length group:nil];
 }
-
 
 - (NSString*)completeString:(NSString*)string candidateEntry:(id)candidateEntry insertionPoint:(NSInteger)insertionPoint {
     
@@ -306,6 +290,65 @@
 
 - (NSArray*)entriesForGroup:(NSString*)group; {
     return nil;
+}
+
+//------------------------------------------------------------------------------
+#pragma mark - Private Helpers
+//------------------------------------------------------------------------------
+
+- (NSString*)substringFromStartCharacterOfString:(NSString*)string {
+    if (!string || [string isEqualToString:@""]) {
+        return nil;
+    }
+
+    if ([string isEqualToString:self.startCharacter]) {
+        return @"";
+    }
+
+    NSMutableArray *possibleStartCombinations = [NSMutableArray new];
+    [self.separationCharacters enumerateObjectsUsingBlock:^(NSString *separator, NSUInteger idx, BOOL *stop) {
+        NSString *combination = [separator stringByAppendingString:self.startCharacter];
+        [possibleStartCombinations addObject:combination];
+    }];
+
+    __block NSRange startRange = NSMakeRange(NSNotFound, 0);
+
+    [possibleStartCombinations enumerateObjectsUsingBlock:^(NSString *combination, NSUInteger idx, BOOL *stop) {
+        NSRange range = [string rangeOfString:combination options:NSBackwardsSearch];
+        if (range.location != NSNotFound) {
+            if (startRange.location == NSNotFound || range.location > startRange.location) {
+                startRange = range;
+            }
+        }
+    }];
+
+    if (startRange.location == NSNotFound) {
+        return nil;
+    } else {
+        return [string substringFromIndex:startRange.location + startRange.length];
+    }
+}
+
+- (BOOL)stringHasInterruptionCharacters:(NSString*)string
+{
+    NSMutableArray *interruptionCharacters = [NSMutableArray new];
+    if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
+        [interruptionCharacters addObject:self.endCharacter];
+    }
+    [self.separationCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
+        if (![character isEqualToString:@""]) {
+            [interruptionCharacters addObject:character];
+        }
+    }];
+
+    __block BOOL hasInterruptionCharacter = FALSE;
+    [interruptionCharacters enumerateObjectsUsingBlock:^(NSString *character, NSUInteger idx, BOOL *stop) {
+        if ([string rangeOfString:character].location != NSNotFound) {
+            hasInterruptionCharacter = TRUE;
+        }
+    }];
+
+    return hasInterruptionCharacter;
 }
 
 @end

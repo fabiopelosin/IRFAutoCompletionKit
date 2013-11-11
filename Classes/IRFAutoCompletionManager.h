@@ -55,5 +55,3 @@
 - (void)autoCompletionTextFieldManagerDidPerformSubstitution:(IRFAutoCompletionManager*)manager;
 
 @end
-
-//------------------------------------------------------------------------------

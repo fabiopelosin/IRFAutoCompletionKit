@@ -296,6 +296,21 @@
 #pragma mark - Private Helpers
 //------------------------------------------------------------------------------
 
+- (NSRange)_searchString:(NSString*)string forSubstrings:(NSArray*)strings options:(NSStringCompareOptions)mask {
+    __block NSRange startRange = NSMakeRange(NSNotFound, 0);
+
+    [strings enumerateObjectsUsingBlock:^(NSString *combination, NSUInteger idx, BOOL *stop) {
+        NSRange range = [string rangeOfString:combination options:NSBackwardsSearch];
+        if (range.location != NSNotFound) {
+            if (startRange.location == NSNotFound || range.location > startRange.location) {
+                startRange = range;
+            }
+        }
+    }];
+
+    return startRange;
+}
+
 - (NSString*)substringFromStartCharacterOfString:(NSString*)string {
     if (!string || [string isEqualToString:@""]) {
         return nil;
@@ -303,6 +318,14 @@
 
     if ([string isEqualToString:self.startCharacter]) {
         return @"";
+    }
+
+    if ([string hasPrefix:self.startCharacter]) {
+        NSRange separatorRange = [self _searchString:string forSubstrings:self.separationCharacters options:NSBackwardsSearch];
+        if (separatorRange.location == NSNotFound) {
+            NSString *substring = [string substringFromIndex:self.startCharacter.length];
+            return substring;
+        }
     }
 
     NSMutableArray *possibleStartCombinations = [NSMutableArray new];
@@ -329,8 +352,7 @@
     }
 }
 
-- (BOOL)stringHasInterruptionCharacters:(NSString*)string
-{
+- (BOOL)stringHasInterruptionCharacters:(NSString*)string {
     NSMutableArray *interruptionCharacters = [NSMutableArray new];
     if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
         [interruptionCharacters addObject:self.endCharacter];

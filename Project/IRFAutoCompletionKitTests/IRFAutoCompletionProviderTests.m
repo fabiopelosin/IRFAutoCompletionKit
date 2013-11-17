@@ -88,29 +88,36 @@ describe(@"IRFAutoCompletionProvider", ^{
     //--------------------------------------------------------------------------
 
     context(@"-shouldEndAutoCompletionForString", ^{
+        context(@"Finalized completion", ^{
+            it(@"ends with a separator character", ^{
+                BOOL result = [sut shouldEndAutoCompletionForString:@":+1: "];
+                [[theValue(result) should] beTrue];
+            });
 
-        it(@"ends with a separator character", ^{
-            BOOL result = [sut shouldEndAutoCompletionForString:@":+1: "];
-            [[theValue(result) should] beTrue];
+            it(@"ends if no start character is found", ^{
+                NSString *string = @"text";
+                BOOL result = [sut shouldEndAutoCompletionForString:string];
+                [[theValue(result) should] beTrue];
+            });
+
+            it(@"ends if the completions has been finalized", ^{
+                NSString *string = @"text :+1:";
+                BOOL result = [sut shouldEndAutoCompletionForString:string];
+                [[theValue(result) should] beTrue];
+            });
         });
 
-        it(@"ends if no start character is found", ^{
-            NSString *string = @"text";
-            BOOL result = [sut shouldEndAutoCompletionForString:string];
-            [[theValue(result) should] beTrue];
-        });
+        context(@"Not finalized completion", ^{
+            it(@"doesn't end with a completin at the start of the string", ^{
+                BOOL result = [sut shouldEndAutoCompletionForString:@":s"];
+                [[theValue(result) should] beFalse];
+            });
 
-        it(@"ends if the completions has been finalized", ^{
-            NSString *string = @"text :+1:";
-            BOOL result = [sut shouldEndAutoCompletionForString:string];
-            [[theValue(result) should] beTrue];
+            it(@"doesn't end with a completion in the middle of a string", ^{
+                BOOL result = [sut shouldEndAutoCompletionForString:@"text :+1"];
+                [[theValue(result) should] beFalse];
+            });
         });
-
-        it(@"doesn't end if the completion has not been finalized", ^{
-            BOOL result = [sut shouldEndAutoCompletionForString:@"text :+1"];
-            [[theValue(result) should] beFalse];
-        });
-
     });
 
     //--------------------------------------------------------------------------

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3AC246536BA24C6A8A8AA3BB /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A89169B3BA2C45E1A907B5B5 /* libPods-Tests.a */; };
 		A39BA6CEB49E4F2483BDC332 /* libPods-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27DF6FC5866640FFBF8A68E8 /* libPods-Demo.a */; };
+		E50E41E71839130000989B8E /* IRFFocusTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E50E41E61839130000989B8E /* IRFFocusTest.m */; };
 		E52AC0CD180E779D00C19F51 /* IRFIRFEmojiAutoCompletionProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E52AC0CC180E779D00C19F51 /* IRFIRFEmojiAutoCompletionProviderTests.m */; };
 		E533C39E180D90BE003FE8B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E533C39D180D90BE003FE8B2 /* Cocoa.framework */; };
 		E533C3A8180D90BE003FE8B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E533C3A6180D90BE003FE8B2 /* InfoPlist.strings */; };
@@ -33,6 +34,7 @@
 		27DF6FC5866640FFBF8A68E8 /* libPods-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		888474DC777D4114AB8B1B13 /* Pods-Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.xcconfig"; path = "Pods/Pods-Tests.xcconfig"; sourceTree = "<group>"; };
 		A89169B3BA2C45E1A907B5B5 /* libPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E50E41E61839130000989B8E /* IRFFocusTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFFocusTest.m; sourceTree = "<group>"; };
 		E52AC0CC180E779D00C19F51 /* IRFIRFEmojiAutoCompletionProviderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFIRFEmojiAutoCompletionProviderTests.m; sourceTree = "<group>"; };
 		E533C39A180D90BE003FE8B2 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E533C39D180D90BE003FE8B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -170,6 +172,7 @@
 		E533C3C1180D90BE003FE8B2 /* IRFAutoCompletionKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				E50E41E61839130000989B8E /* IRFFocusTest.m */,
 				E5D28E0D180E90430040CDD5 /* IRFAutoCompletionProviderTests.m */,
 				E52AC0CB180E778E00C19F51 /* CompletionProviders */,
 				E533C3C2180D90BE003FE8B2 /* Supporting Files */,
@@ -376,6 +379,7 @@
 			files = (
 				E5D28E0C180E8E2E0040CDD5 /* IRFUserCompletionProviderTests.m in Sources */,
 				E5D28E0E180E90430040CDD5 /* IRFAutoCompletionProviderTests.m in Sources */,
+				E50E41E71839130000989B8E /* IRFFocusTest.m in Sources */,
 				E52AC0CD180E779D00C19F51 /* IRFIRFEmojiAutoCompletionProviderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

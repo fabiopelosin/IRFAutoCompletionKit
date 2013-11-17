@@ -143,8 +143,23 @@ describe(@"IRFAutoCompletionProvider", ^{
     //--------------------------------------------------------------------------
 
     context(@"-candidatesEntriesForString", ^{
-        it(@"starts if the emjoi has not being completed", ^{
-            NSArray *result = [sut candidatesEntriesForString:@"sometext :thumbs"];
+        it(@"returns the entries", ^{
+            NSArray *result = [sut candidatesEntriesForString:@":thumbs"];
+            [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
+        });
+
+        it(@"returns the entries of a string with a separator before", ^{
+            NSArray *result = [sut candidatesEntriesForString:@"text :thumbs"];
+            [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
+        });
+
+        it(@"returns the entries of a string with a separator after", ^{
+            NSArray *result = [sut candidatesEntriesForString:@":thumbs text"];
+            [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
+        });
+
+        it(@"returns the entries of a string enclosed by two separator", ^{
+            NSArray *result = [sut candidatesEntriesForString:@"text :thumbs text"];
             [[result should] equal:@[@"thumbsup", @"thumbsdown"]];
         });
 

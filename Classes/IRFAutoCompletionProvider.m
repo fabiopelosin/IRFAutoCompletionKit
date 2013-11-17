@@ -127,7 +127,6 @@
 }
 
 - (NSString*)completeString:(NSString*)string candidateEntry:(id)candidateEntry insertionPoint:(NSInteger)insertionPoint {
-
     if (candidateEntry) {
         NSString *candidate = [self completionForEntry:candidateEntry];
         NSRange range = [self _replacementRangeOfString:string insertionPoint:insertionPoint];
@@ -185,7 +184,14 @@
 }
 
 - (NSString*)_autoCompletionPrefixForString:(NSString*)string {
-    return [[string componentsSeparatedByString:self.startCharacter] lastObject];
+    NSString *searchKey = [[string componentsSeparatedByString:self.startCharacter] lastObject];
+
+    NSRange separatorRange = [self _searchString:searchKey forSubstrings:self.separationCharacters options:0];
+    if (separatorRange.location != NSNotFound) {
+        searchKey = [searchKey substringToIndex:separatorRange.location];
+    }
+
+    return searchKey;
 }
 
 - (NSRange)_replacementRangeOfString:(NSString*)string insertionPoint:(NSInteger)insertionPoint {

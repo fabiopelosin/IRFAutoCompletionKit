@@ -1,12 +1,12 @@
 PODS:
-  - IRFAutoCompletionKit (0.1.0):
+  - IRFAutoCompletionKit (0.1.1):
     - IRFAutoCompletionKit/CompletionProviders
     - IRFAutoCompletionKit/ViewControllers
     - IRFAutoCompletionKit/ViewManagers
-  - IRFAutoCompletionKit/CompletionProviders (0.1.0):
+  - IRFAutoCompletionKit/CompletionProviders (0.1.1):
     - IRFEmojiCheatSheet
-  - IRFAutoCompletionKit/ViewControllers (0.1.0)
-  - IRFAutoCompletionKit/ViewManagers (0.1.0)
+  - IRFAutoCompletionKit/ViewControllers (0.1.1)
+  - IRFAutoCompletionKit/ViewManagers (0.1.1)
   - IRFEmojiCheatSheet (0.3.0)
   - Kiwi/ARC (2.2.3)
   - Kiwi/NonARC (2.2.3)
@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  IRFAutoCompletionKit: ffc0db8998c5c4db545756119af0422a532817b6
+  IRFAutoCompletionKit: c6618b1bb7b814dc0c6fbef138646c8a66cbc85b
   IRFEmojiCheatSheet: 88536eccaa3d994a8300063ea4b9cfc245561df5
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
 

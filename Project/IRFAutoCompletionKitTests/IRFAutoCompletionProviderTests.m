@@ -105,16 +105,21 @@ describe(@"IRFAutoCompletionProvider", ^{
                 BOOL result = [sut shouldEndAutoCompletionForString:string];
                 [[theValue(result) should] beTrue];
             });
+
+            it(@"ends if it has not completions to suggest", ^{
+                BOOL result = [sut shouldEndAutoCompletionForString:@":thumbsleft"];
+                [[theValue(result) should] beTrue];
+            });
         });
 
         context(@"Not finalized completion", ^{
             it(@"doesn't end with a completin at the start of the string", ^{
-                BOOL result = [sut shouldEndAutoCompletionForString:@":s"];
+                BOOL result = [sut shouldEndAutoCompletionForString:@":thumbs"];
                 [[theValue(result) should] beFalse];
             });
 
             it(@"doesn't end with a completion in the middle of a string", ^{
-                BOOL result = [sut shouldEndAutoCompletionForString:@"text :+1"];
+                BOOL result = [sut shouldEndAutoCompletionForString:@"text :thumbs"];
                 [[theValue(result) should] beFalse];
             });
         });

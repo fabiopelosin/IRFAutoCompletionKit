@@ -10,8 +10,7 @@
 
 @implementation IRFAutoCompletionProvider
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         [self setStartCharacter:@""];
@@ -24,9 +23,8 @@
 
 //------------------------------------------------------------------------------
 
-- (BOOL)shouldStartAutoCompletionForString:(NSString*)string;
-{
-    NSString *substringFromStartCharacter = [self substringFromStartCharacterOfString:string];
+- (BOOL)shouldStartAutoCompletionForString:(NSString*)string; {
+    NSString *substringFromStartCharacter = [self _substringFromStartCharacterOfString:string];
     if (!substringFromStartCharacter) {
         return FALSE;
     }
@@ -40,38 +38,35 @@
         NSRange previousStartRange = [substringToEndCharacter rangeOfString:self.startCharacter options:NSBackwardsSearch];
         if (previousStartRange.location != NSNotFound) {
             NSString *pontenialComplete = [substringToEndCharacter substringFromIndex:previousStartRange.location + previousStartRange.length];
-            if (![self stringHasInterruptionCharacters:pontenialComplete]) {
+            if (![self _stringHasInterruptionCharacters:pontenialComplete]) {
                 return FALSE;
             }
         }
     }
 
-    return ![self stringHasInterruptionCharacters:substringFromStartCharacter];
+    return ![self _stringHasInterruptionCharacters:substringFromStartCharacter];
 }
 
-- (BOOL)shouldStartAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint;
-{
+- (BOOL)shouldStartAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint {
     NSString *substring = [string substringToIndex:insertionPoint];
     return [self shouldStartAutoCompletionForString:substring];
 }
 
 
-- (BOOL)shouldEndAutoCompletionForString:(NSString*)string;
-{
+- (BOOL)shouldEndAutoCompletionForString:(NSString*)string {
     if ([string hasSuffix:self.endCharacter]) {
         return TRUE;
     }
 
-    NSString *substringFromStartCharacter = [self substringFromStartCharacterOfString:string];
+    NSString *substringFromStartCharacter = [self _substringFromStartCharacterOfString:string];
     if (!substringFromStartCharacter) {
         return TRUE;
     }
 
-    return [self stringHasInterruptionCharacters:substringFromStartCharacter];
+    return [self _stringHasInterruptionCharacters:substringFromStartCharacter];
 }
 
-- (BOOL)shouldEndAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint;
-{
+- (BOOL)shouldEndAutoCompletionForString:(NSString*)string insertionPoint:(NSInteger)insertionPoint {
     NSString *substring = [string substringToIndex:insertionPoint];
     return [self shouldEndAutoCompletionForString:substring];
 }
@@ -147,13 +142,11 @@
     }
 }
 
-- (NSString*)completeString:(NSString*)string candidateEntry:(id)candidateEntry;
-{
+- (NSString*)completeString:(NSString*)string candidateEntry:(id)candidateEntry {
     return [self completeString:string candidateEntry:candidateEntry insertionPoint:string.length];
 }
 
-- (NSString*)completeString:(NSString*)string;
-{
+- (NSString*)completeString:(NSString*)string {
     NSString *candidateEntry = [self candidatesEntriesForString:string][0];
     return [self completeString:string candidateEntry:candidateEntry insertionPoint:string.length];
 }
@@ -162,8 +155,7 @@
 #pragma mark - Private Helpers
 //------------------------------------------------------------------------------
 
-- (NSString*)_completionWithCandidate:(NSString*)candidate separator:(NSString*)separator;
-{
+- (NSString*)_completionWithCandidate:(NSString*)candidate separator:(NSString*)separator {
     NSMutableString *result = [NSMutableString new];
     if (self.startCharacter) {
         [result appendString:self.startCharacter];
@@ -180,16 +172,13 @@
     return result;
 }
 
-- (NSString*)_autoCompletionPrefixForString:(NSString*)string;
-{
+- (NSString*)_autoCompletionPrefixForString:(NSString*)string {
     return [[string componentsSeparatedByString:self.startCharacter] lastObject];
 }
 
 - (NSRange)_replacementRangeOfString:(NSString*)string insertionPoint:(NSInteger)insertionPoint {
-
     NSString *startString = [string substringToIndex:insertionPoint];
     NSString *endString = [string substringFromIndex:insertionPoint];
-
 
     NSUInteger start = [startString rangeOfString:self.startCharacter options:NSBackwardsSearch].location;
 
@@ -240,8 +229,7 @@
 #pragma mark - Display
 //------------------------------------------------------------------------------
 
-- (NSArray*)entries;
-{
+- (NSArray*)entries {
     if (self.entriesBlock) {
         return self.entriesBlock();
     } else {
@@ -250,8 +238,7 @@
     }
 }
 
-- (NSString*)completionForEntry:(id)entry;
-{
+- (NSString*)completionForEntry:(id)entry {
     if (self.completionBlock) {
         return self.completionBlock(entry);
     } else {
@@ -262,8 +249,7 @@
         }
     }}
 
-- (NSString*)displayValueForEntry:(id)entry;
-{
+- (NSString*)displayValueForEntry:(id)entry {
     if (self.displayValueBlock) {
         return self.displayValueBlock(entry);
     } else {
@@ -271,8 +257,7 @@
     }
 }
 
-- (NSImage*)imageForEntry:(NSString*)entry;
-{
+- (NSImage*)imageForEntry:(NSString*)entry {
     if (self.imageBlock) {
         return self.imageBlock(entry);
     } else {
@@ -311,7 +296,7 @@
     return startRange;
 }
 
-- (NSString*)substringFromStartCharacterOfString:(NSString*)string {
+- (NSString*)_substringFromStartCharacterOfString:(NSString*)string {
     if (!string || [string isEqualToString:@""]) {
         return nil;
     }
@@ -334,17 +319,7 @@
         [possibleStartCombinations addObject:combination];
     }];
 
-    __block NSRange startRange = NSMakeRange(NSNotFound, 0);
-
-    [possibleStartCombinations enumerateObjectsUsingBlock:^(NSString *combination, NSUInteger idx, BOOL *stop) {
-        NSRange range = [string rangeOfString:combination options:NSBackwardsSearch];
-        if (range.location != NSNotFound) {
-            if (startRange.location == NSNotFound || range.location > startRange.location) {
-                startRange = range;
-            }
-        }
-    }];
-
+    NSRange startRange = [self _searchString:string forSubstrings:possibleStartCombinations options:NSBackwardsSearch];
     if (startRange.location == NSNotFound) {
         return nil;
     } else {
@@ -352,7 +327,7 @@
     }
 }
 
-- (BOOL)stringHasInterruptionCharacters:(NSString*)string {
+- (BOOL)_stringHasInterruptionCharacters:(NSString*)string {
     NSMutableArray *interruptionCharacters = [NSMutableArray new];
     if (self.endCharacter && [self.endCharacter isNotEqualTo:@""]) {
         [interruptionCharacters addObject:self.endCharacter];

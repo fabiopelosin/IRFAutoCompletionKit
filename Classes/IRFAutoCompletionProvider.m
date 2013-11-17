@@ -44,6 +44,10 @@
         }
     }
 
+    if([self candidatesEntriesForString:string].count == 0) {
+        return FALSE;
+    }
+
     return ![self _stringHasInterruptionCharacters:substringFromStartCharacter];
 }
 
@@ -123,6 +127,7 @@
 }
 
 - (NSString*)completeString:(NSString*)string candidateEntry:(id)candidateEntry insertionPoint:(NSInteger)insertionPoint {
+
     if (candidateEntry) {
         NSString *candidate = [self completionForEntry:candidateEntry];
         NSRange range = [self _replacementRangeOfString:string insertionPoint:insertionPoint];

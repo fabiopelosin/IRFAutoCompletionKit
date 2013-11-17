@@ -42,8 +42,14 @@ describe(@"IRFAutoCompletionProvider", ^{
                 [[theValue(result) should] beTrue];
             });
 
+            it(@"starts at the beginning of the string", ^{
+                NSString *string = @":thumb";
+                BOOL result = [sut shouldStartAutoCompletionForString:string];
+                [[theValue(result) should] beTrue];
+            });
+
             it(@"starts after the start character if a completion is still in progress", ^{
-                NSString *string = @"Some string :tumb";
+                NSString *string = @"Some string :thumb";
                 BOOL result = [sut shouldStartAutoCompletionForString:string];
                 [[theValue(result) should] beTrue];
             });
@@ -56,13 +62,19 @@ describe(@"IRFAutoCompletionProvider", ^{
         });
 
         context(@"should not start", ^{
-            it(@"doesnt' starts if the start character could not be found", ^{
+            it(@"doesnt' start if there are no completions", ^{
+                NSString *string = @":thumbsleft";
+                BOOL result = [sut shouldStartAutoCompletionForString:string];
+                [[theValue(result) should] beFalse];
+            });
+
+            it(@"doesnt' start if the start character could not be found", ^{
                 NSString *string = @"Some string";
                 BOOL result = [sut shouldStartAutoCompletionForString:string];
                 [[theValue(result) should] beFalse];
             });
 
-            it(@"doesn't starts with a space after a completed emoji", ^{
+            it(@"doesn't start with a space after a completed emoji", ^{
                 NSString *string = @"sometext :thumbs: ";
                 BOOL result = [sut shouldStartAutoCompletionForString:string];
                 [[theValue(result) should] beFalse];

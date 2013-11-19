@@ -1,7 +1,7 @@
 # IRFAutoCompletionKit
 
-[![Version](https://cocoapod-badges.herokuapp.com/v/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
-[![Platform](https://cocoapod-badges.herokuapp.com/p/DSAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
+[![Version](https://cocoapod-badges.herokuapp.com/v/IRFAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
+[![Platform](https://cocoapod-badges.herokuapp.com/p/IRFAutoCompletionKit/badge.png)](http://cocoadocs.org/docsets/DSAutoCompletionKit)
 [![Build Status](https://travis-ci.org/irrationalfab/IRFAutoCompletionKit.png?branch=master)](https://travis-ci.org/irrationalfab/IRFAutoCompletionKit)
 
 _Warning this library is under development and although it is functional is has some important bugs._

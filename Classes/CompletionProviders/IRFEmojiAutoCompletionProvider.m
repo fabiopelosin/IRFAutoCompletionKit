@@ -56,8 +56,7 @@
 #pragma mark - Groups Support
 //------------------------------------------------------------------------------
 
-- (NSArray*)entryGroups;
-{
+- (NSArray*)entryGroups {
     return [[IRFEmojiCheatSheet emojisByGroup] allKeys];
 }
 

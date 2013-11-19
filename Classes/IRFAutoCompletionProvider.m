@@ -287,12 +287,23 @@
 #pragma mark - Groups Support
 //------------------------------------------------------------------------------
 
-- (NSArray*)entryGroups; {
-    return nil;
+- (NSArray*)entryGroups {
+    if (self.groupsBlock) {
+        return self.groupsBlock();
+    } else {
+        return nil;
+    }
 }
 
-- (NSArray*)entriesForGroup:(NSString*)group; {
-    return nil;
+- (NSArray*)entriesForGroup:(NSString*)group {
+    if (self.entriesForGroupsBlock) {
+        return self.entriesForGroupsBlock(group);
+    } if (self.groupsBlock) {
+        [NSException raise:NSInternalInconsistencyException format:@"The groupsBlock has been set without an entriesForGroupsBlock for autocompletion provider: %@", self];
+        return nil;
+    } else {
+        return nil;
+    }
 }
 
 //------------------------------------------------------------------------------

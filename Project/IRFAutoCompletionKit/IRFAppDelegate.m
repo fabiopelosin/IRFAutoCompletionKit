@@ -22,16 +22,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     IRFEmojiAutoCompletionProvider *emojiCompletionProvider = [IRFEmojiAutoCompletionProvider new];
-    IRFUserCompletionProvider *userCompletionProvider = [IRFUserCompletionProvider new];
-    [userCompletionProvider setEntriesBlock:^NSArray *{
-        return @[@"Fabio", @"Alloy", @"Orta", @"Marin", @"Michele"];
-    }];
-
-    [userCompletionProvider setImageBlock:^NSImage *(NSString *entry) {
-        return [NSImage imageNamed:@"Lion"];
-    }];
-
-    NSArray *completionsProviders = @[emojiCompletionProvider, userCompletionProvider];
+    IRFUserCompletionProvider *userCompletionProvider = [self _userCompletionProvider];
+    IRFAutoCompletionProvider *testProvider = [self _testProvider];
+    NSArray *completionsProviders = @[emojiCompletionProvider, userCompletionProvider, testProvider];
     [self setAutoCompletionManager:[IRFAutoCompletionTextFieldManager new]];
     [self.autoCompletionManager setCompletionProviders:completionsProviders];
     [self.autoCompletionManager attachToTextField:self.textField];
@@ -75,6 +68,44 @@
 - (void)autoCompletionTextFieldManagerDidPerformSubstitution:(IRFAutoCompletionTextFieldManager*)manager {
     [self updateLabelTextField];
     [self copyTextFieldContentsToPasteBoard];
+}
+
+//------------------------------------------------------------------------------
+#pragma mark - Private
+//------------------------------------------------------------------------------
+
+- (IRFUserCompletionProvider *)_userCompletionProvider {
+    IRFUserCompletionProvider *userCompletionProvider = [IRFUserCompletionProvider new];
+    [userCompletionProvider setEntriesBlock:^NSArray *{
+        return @[@"Fabio", @"Alloy", @"Orta", @"Marin", @"Michele"];
+    }];
+
+    [userCompletionProvider setGroupsBlock:^NSArray *{
+        return @[@"Online", @"Offline"];
+    }];
+
+    [userCompletionProvider setEntriesForGroupsBlock:^NSArray *(NSString *group) {
+        if ([group isEqualToString:@"Online"]) {
+            return @[@"Alloy", @"Orta", @"Marin", @"Michele"];
+        } else {
+            return @[@"Fabio"];
+        }
+    }];
+
+    [userCompletionProvider setImageBlock:^NSImage *(NSString *entry) {
+        return [NSImage imageNamed:@"Lion"];
+    }];
+    return userCompletionProvider;
+}
+
+- (IRFAutoCompletionProvider *)_testProvider {
+    IRFAutoCompletionProvider *testProvider = [IRFAutoCompletionProvider new];
+    [testProvider setStartCharacter:@"$"];
+    [testProvider setSeparationCharacters:@[@" ", @"\n"]];
+    [testProvider setEntriesBlock:^NSArray *{
+        return @[@"test1", @"test2"];
+    }];
+    return testProvider;
 }
 
 @end

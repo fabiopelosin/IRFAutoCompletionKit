@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-
 /**
  * Serves as a data source for autocompletions. Clients are mostly interested
- * in pupulating the class, which can be used with the rest of the kit. In this
+ * in populating the class, which can be used with the rest of the kit. In this
  * regard is important to be aware that this class is built around the concept
  * of entries. Those entries are the list of the objects used for the auto 
  * completion and they can by used to provide different display strings or
@@ -106,10 +105,25 @@
 //------------------------------------------------------------------------------
 
 /**
+ * Block used to pupulate the group entries used for autocompletion. 
+ * If this block is provided the `entriesForGroupsBlock` should be set as well.
+ * This block overrides the `entriesBlock`.
+ *
+ * The block should return an array of NSStrings.
+ */
+@property (nonatomic, copy) NSArray* (^groupsBlock)(void);
+
+/**
  * The groups which should be used for the entries if the autcompletion should
  * be grouped.
  */
 - (NSArray*)entryGroups;
+
+/**
+ * Block used to pupulate the entries for the given group. It must be set if
+ * the `groupsBlock` has been provided.
+ */
+@property (nonatomic, copy) NSArray* (^entriesForGroupsBlock)(NSString *group);
 
 /**
  * The entries associated with the given group.

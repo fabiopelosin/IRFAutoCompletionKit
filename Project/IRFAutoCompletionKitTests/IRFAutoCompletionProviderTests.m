@@ -202,6 +202,50 @@ describe(@"IRFAutoCompletionProvider", ^{
     });
 
     //--------------------------------------------------------------------------
+
+    context(@"Entries specification", ^{
+        it(@"allows to specify the entries via a block", ^{
+            [sut setEntriesBlock:^NSArray *{
+                return @[@"entry1", @"entry2"];
+            }];
+            [[[sut entries] should] equal:@[@"entry1", @"entry2"]];
+        });
+    });
+
+    //--------------------------------------------------------------------------
+
+    context(@"Group support", ^{
+        it(@"allows to specify the groups via a block", ^{
+            [sut setGroupsBlock:^NSArray *{
+                return @[@"group1", @"group2"];
+            }];
+            [[[sut entryGroups] should] equal:@[@"group1", @"group2"]];
+        });
+
+        it(@"allows to specify the entries of the groups via a block", ^{
+            [sut setGroupsBlock:^NSArray *{
+                return @[@"group1", @"group2"];
+            }];
+            [sut setEntriesForGroupsBlock:^NSArray *(NSString *group) {
+                if([group isEqualToString:@"group1"]) {
+                    return @[@"group1A", @"group1B"];
+                } else {
+                    return @[@"group2A", @"group2B"];
+                }
+            }];
+            [[[sut entriesForGroup:@"group1"] should] equal:@[@"group1A", @"group1B"]];
+            [[[sut entriesForGroup:@"group2"] should] equal:@[@"group2A", @"group2B"]];
+        });
+
+        it(@"raises if the groupsBlock has been specified without the entriesForGroupsBlock", ^{
+            [sut setGroupsBlock:^NSArray *{
+                return @[@"group1", @"group2"];
+            }];
+            [[theBlock(^{ [sut entriesForGroup:@"group1"]; }) should] raise];
+        });
+    });
+    
+    //--------------------------------------------------------------------------
     
 });
 

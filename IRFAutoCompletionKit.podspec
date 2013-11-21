@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "IRFAutoCompletionKit"
-  s.version      = "0.1.1"
+  s.version      = "0.2.0"
   s.summary      = "Small kit designed to provide autocompletion triggered by a character. Loves emojis!"
   s.description  = <<-DESC
                      Small kit designed to provide autocompletion triggered by a character. Built in

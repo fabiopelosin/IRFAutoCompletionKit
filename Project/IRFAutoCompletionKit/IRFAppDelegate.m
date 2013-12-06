@@ -76,9 +76,6 @@
 
 - (IRFUserCompletionProvider *)_userCompletionProvider {
     IRFUserCompletionProvider *userCompletionProvider = [IRFUserCompletionProvider new];
-    [userCompletionProvider setEntriesBlock:^NSArray *{
-        return @[@"Fabio", @"Alloy", @"Orta", @"Marin", @"Michele"];
-    }];
 
     [userCompletionProvider setGroupsBlock:^NSArray *{
         return @[@"Online", @"Offline"];

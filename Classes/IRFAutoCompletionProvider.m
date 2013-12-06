@@ -248,8 +248,15 @@
 //------------------------------------------------------------------------------
 
 - (NSArray*)entries {
-    if (self.entriesBlock) {
+    if (self.groupsBlock) {
+        NSMutableArray *result = [NSMutableArray new];
+        for (NSString *group in [self entryGroups]) {
+            [result addObjectsFromArray:[self entriesForGroup:group]];
+        }
+        return result;
+    } else if (self.entriesBlock) {
         return self.entriesBlock();
+
     } else {
         [NSException raise:NSInternalInconsistencyException format:@"No entries for autocompletion provider: %@", self];
         return nil;
